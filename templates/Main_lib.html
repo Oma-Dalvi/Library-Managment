@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+{%load static%}
+    <style>
+        button {
+            float: right;
+            margin-top: 10px;
+            margin-right: 15px;
+        }
+        label.logo{
+            padding: 0;
+            margin: 0;
+            color: gold;
+            font-size: 35px;
+            line-height: 80px;
+            padding: 0 100px;
+            font-weight: bold; 
+            margin-left: auto;  
+        }
+        .styled-table {
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            min-width: 400px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+        }
+        .styled-table thead tr {
+            background-color: #009879;
+            color: #ffffff;
+            text-align: left;
+        }
+        .styled-table th,
+        .styled-table td {
+            padding: 12px 15px;
+        }
+        .styled-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        .styled-table tbody tr:last-of-type {
+            border-bottom: 2px solid #009879;
+        }
+        .styled-table tbody tr.active-row {
+            font-weight: bold;
+            color: #009879;
+        }
+    </style>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Managment</title>
+    <link rel="stylesheet" href="{%static 'css/style.css'%}">
+</head>
+<body>
+    <nav>
+        <label class="logo">Hello {{request.user}}, Welcome to Library...</label>
+        <ul>
+            <li><a href="{%url 'library:addMember' %}">Add Member</a></li>
+            <li><a href="{%url 'library:addBook' %}">Add Book</a></li>
+            <li><a href="{%url 'library:logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+    <div class="container mt-4">
+        <h1 class="text-center red" ><u>All Books List</u></h1>
+        <table class="styled-table" id="example" cellspacing = "10">
+            <thead>
+                <tr>
+                    <th>Sr.No</th>
+                    <th>Title Book</th>
+                    <th>ISBN Number</th>
+                    <th>Author</th>                  
+                    <th>Category</th>
+                    <th>Publisher</th>
+                    <th>Available Book</th>
+                    <th>Issue Book</th>
+                    <th>Return Book</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bk in book %}
+                <tr>
+                    <td>{{bk.id}}</td>
+                    <td>{{bk.title}}</td>
+                    <td>{{bk.isbn}}</td>
+                    <td>{{bk.author}}</td>
+                    <td>{{bk.category}}</td>
+                    <td>{{bk.publisher}}</td>
+                    <td>{{bk.Total_count}}</td>
+                    <td><a href="{%url 'library:issueBook' bk.id %}">Issue Book</a></td>
+                    <td><a href="{%url 'library:returnBook' bk.id %}" class="btn btn-danger">Return book</a></td>
+                    <td><a href="{%url 'library:delete' bk.id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this book?')">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+</body>
+</html>
+
